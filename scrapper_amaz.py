@@ -14,9 +14,6 @@ import json
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 ua=UserAgent()
 
-mongoclient = pymongo.MongoClient("mongodb+srv://Mycle:Piterpiter@cluster0-dqqoe.mongodb.net/test?retryWrites=true&w=majority")
-db = mongoclient["amazon_data"]
-
 def get_proxies():
     with open('proxy.txt') as f:
         proxylist = f.read().splitlines()
@@ -430,24 +427,6 @@ def get_product_details(url):
             details[radio_title] = radio_title_dict
     return details
 
-def save_to_mongo(document):
-    """
-    Saves or Updates Mongo db
-    document : type: Dictionary
-
-    """
-    collection = db['scrapped_data']
-    data = collection.find_one({'url':document.get('url')})
-    if data:
-        data['shipping_message'] = document.get('shipping_message')
-        data['small_img_urls'] = document.get('small_img_urls')
-        data['large_img_urls'] = document.get('large_img_urls')
-        data['feature_bullets'] = document.get('feature_bullets')
-        data.update()
-    else:
-        data = collection.insert_one(document)
-    return data
-
 def main_scrapper(product_url):
 # if __name__ == '__main__':
     #product_url = "https://www.amazon.com/Vivii-velas-llama-velas-falsas-bater%C3%ADa/dp/B01MQ1Q3R1?pf_rd_r=CTEWXXM0ZRPGERP822HK&pf_rd_p=277a7e11-1bef-478c-bd76-67176c3b2794&pd_rd_r=6da7826a-b855-499d-b424-230e25bc6416&pd_rd_w=PZTfw&pd_rd_wg=Vi9dp&ref_=pd_gw_unk"
@@ -457,6 +436,5 @@ def main_scrapper(product_url):
     # args = parser.parse_args()
     # product_url = args.url
     data = get_product_details(product_url)
-    flagged_data = save_to_mongo(data)
     # print(data)
     return data
