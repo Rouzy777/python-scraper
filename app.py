@@ -1,11 +1,9 @@
 # app.py
 
 from flask import Flask, render_template, request, json         # import flask
-from flask_cors import CORS
 import scrapper_amaz
 
 app = Flask(__name__)             # create an app instance
-CORS(app)
 
 @app.route("/", methods = ['GET', 'POST'])                   # at the end point /
 def index():                      # call method hello
