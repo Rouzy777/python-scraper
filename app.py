@@ -1,15 +1,13 @@
 # app.py
 
 from flask import Flask, render_template, request, json         # import flask
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import scrapper_amaz
 
 app = Flask(__name__)             # create an app instance
-cors = CORS(app)
-app.config['CORS-HEADERS'] = 'Content-Type'
+CORS(app)
 
 @app.route("/", methods = ['GET', 'POST'])                   # at the end point /
-@cross_origin()
 def index():                      # call method hello
   if request.method == 'POST':
     amazon_url = request.form['url']
