@@ -1,9 +1,11 @@
 # app.py
 
 from flask import Flask, render_template, request, json         # import flask
+from flask_cors import CORS
 import scrapper_amaz
 
 app = Flask(__name__)             # create an app instance
+CORS(app)
 
 @app.route("/", methods = ['GET', 'POST'])                   # at the end point /
 def index():                      # call method hello
@@ -21,4 +23,4 @@ def index():                      # call method hello
     return render_template('index.html')         # which returns "hello world"
 
 if __name__ == "__main__":        # on running python app.py
-    app.run()                     # run the flask app
+    app.run(debug=True,host='0.0.0.0', port=5000)                     # run the flask app
